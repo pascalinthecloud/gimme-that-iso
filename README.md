@@ -50,34 +50,22 @@ The application is configured using an `isos.json` file. You can add multiple fi
 2.  **Run:**
     You can specify the download directory and the number of concurrent workers.
     ```sh
-    ./gimme-that-iso --download-dir /path/to/your/downloads --workers 4
+    ./gimme-that-iso --download-dir /path/to/your/downloads --workers 2
     ```
 
     **Example Output:**
-    ```
-[timestamp] gimme-that-iso starting...
-[timestamp] Configuration loaded successfully. Starting up to 2 workers...
-[timestamp] [Worker 2] [Debian Netinstall] Processing job.
-[timestamp] [Worker 1] [Alpine Standard] Processing job.
-[timestamp] [Worker 1] [Alpine Standard] Progress: 51% (107.37 MB / 209.00 MB) @ 54.92 MB/s, ETA: 0m1s
-[timestamp] [Worker 2] [Debian Netinstall] Progress: 11% (88.84 MB / 784.00 MB) @ 54.46 MB/s, ETA: 0m12s
-[timestamp] [Worker 1] [Alpine Standard] Download complete.
-[timestamp] [Worker 1] [Alpine Standard] Starting verification.
-[timestamp] [Worker 1] [Alpine Standard] Verifying GPG signature of ISO file...
-[timestamp] [Worker 2] [Debian Netinstall] Progress: 30% (237.30 MB / 784.00 MB) @ 68.12 MB/s, ETA: 0m8s
-[timestamp] [Worker 1] [Alpine Standard] GPG signature of ISO verified successfully.
-[timestamp] [Worker 1] [Alpine Standard] Verifying checksum...
-[timestamp] [Worker 1] [Alpine Standard] Checksum verified successfully.
-[timestamp] [Worker 1] [Alpine Standard] Successfully verified.
-[timestamp] [Worker 2] [Debian Netinstall] Progress: 69% (539.19 MB / 784.00 MB) @ 71.96 MB/s, ETA: 0m3s
-[timestamp] [Worker 2] [Debian Netinstall] Download complete.
-[timestamp] [Worker 2] [Debian Netinstall] Starting verification.
-[timestamp] [Worker 2] [Debian Netinstall] Verifying GPG signature of checksum file...
-[timestamp] [Worker 2] [Debian Netinstall] GPG signature of checksum file verified successfully.
-[timestamp] [Worker 2] [Debian Netinstall] Verifying ISO checksum...
-[timestamp] [Worker 2] [Debian Netinstall] Checksum verified successfully.
-[timestamp] [Worker 2] [Debian Netinstall] Successfully verified.
-[timestamp] All tasks completed.
+    ```log
+    2025/12/14 00:08:05 gimme-that-iso starting...
+    2025/12/14 00:08:05 Configuration loaded successfully. Starting up to 2 workers...
+    2025/12/14 00:08:05 [Worker 2] [Debian Netinstall] Processing job.
+    2025/12/14 00:08:05 [Worker 1] [Alpine Standard] Processing job.
+    2025/12/14 00:08:07 [Worker 1] [Alpine Standard] Progress: 58% (121.12 MB / 209.00 MB) @ 61.94 MB/s, ETA: 0m1s
+    2025/12/14 00:08:07 [Worker 2] [Debian Netinstall] Progress: 13% (103.66 MB / 784.00 MB) @ 69.89 MB/s, ETA: 0m9s
+    ...
+    2025/12/14 00:08:11 [Worker 1] [Alpine Standard] Successfully verified.
+    ...
+    2025/12/14 00:08:20 [Worker 2] [Debian Netinstall] Successfully verified.
+    2025/12/14 00:08:20 All tasks completed.
     ```
 
 ### Docker

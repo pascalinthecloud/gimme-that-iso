@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gimme-that-iso-config
+data:
+  isos.json: |
+    {
+      "isos": [
+        {
+          "name": "Debian Netinstall",
+          "url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso",
+          "signature_url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS.sign",
+          "checksum_file_url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS",
+          "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xDA87E80D6294BE9B"
+        }
+      ]
+    }
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gimme-that-iso-downloads
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi # Adjust size as needed
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gimme-that-iso-cronjob
+spec:
+  schedule: "0 2 * * *" # Runs every day at 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: gimme-that-iso
+            # IMPORTANT: Replace this with the actual image you have built and pushed to your registry.
+            image: your-registry/gimme-that-iso:latest
+            imagePullPolicy: IfNotPresent
+            args:
+              - "--download-dir=/downloads"
+            volumeMounts:
+            - name: config-volume
+              mountPath: /app/isos.json
+              subPath: isos.json
+            - name: downloads-volume
+              mountPath: /downloads
+          restartPolicy: OnFailure
+          volumes:
+          - name: config-volume
+            configMap:
+              name: gimme-that-iso-config
+          - name: downloads-volume
+            persistentVolumeClaim:
+              claimName: gimme-that-iso-downloads

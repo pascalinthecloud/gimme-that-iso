@@ -1,0 +1,18 @@
+{
+  "isos": [
+    {
+      "name": "Debian Netinstall",
+      "url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso",
+      "signature_url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS.sign",
+      "checksum_file_url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS",
+      "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xDA87E80D6294BE9B"
+    },
+    {
+      "name": "Alpine Standard",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso",
+      "signature_url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso.asc",
+      "checksum_file_url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso.sha256",
+      "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x293ACD0907D9495A"
+    }
+  ]
+}

@@ -8,6 +8,7 @@
 - **Concurrent Downloads**: Downloads multiple ISOs at the same time for improved performance.
 - **Secure**: Verifies downloads using both GPG signatures and checksums (SHA512/SHA256).
 - **Memory Efficient**: Downloads files by streaming them to disk, not loading them into memory.
+- **Pipeline-Friendly Logging**: Provides clean, timestamped, and tagged log output for every step (progress, verification), making it ideal for automation and easy to parse.
 - **Container Ready**: Includes a multi-stage `Dockerfile` for building a minimal, secure image.
 - **Kubernetes Native**: Comes with a `cronjob.yaml` manifest for automated, scheduled execution in Kubernetes.
 
@@ -54,8 +55,29 @@ The application is configured using an `isos.json` file. You can add multiple fi
 
     **Example Output:**
     ```
-     Alpine Standard 209.00 MiB / 209.00 MiB [====================] 100% 0s ] 93.64 MiB/s
-    Debian Netinstall 784.00 MiB / 784.00 MiB [====================] 100% 0s ] 18.34 MiB/s
+[timestamp] gimme-that-iso starting...
+[timestamp] Configuration loaded successfully. Starting up to 2 workers...
+[timestamp] [Worker 2] [Debian Netinstall] Processing job.
+[timestamp] [Worker 1] [Alpine Standard] Processing job.
+[timestamp] [Worker 1] [Alpine Standard] Progress: 51% (107.37 MB / 209.00 MB) @ 54.92 MB/s, ETA: 0m1s
+[timestamp] [Worker 2] [Debian Netinstall] Progress: 11% (88.84 MB / 784.00 MB) @ 54.46 MB/s, ETA: 0m12s
+[timestamp] [Worker 1] [Alpine Standard] Download complete.
+[timestamp] [Worker 1] [Alpine Standard] Starting verification.
+[timestamp] [Worker 1] [Alpine Standard] Verifying GPG signature of ISO file...
+[timestamp] [Worker 2] [Debian Netinstall] Progress: 30% (237.30 MB / 784.00 MB) @ 68.12 MB/s, ETA: 0m8s
+[timestamp] [Worker 1] [Alpine Standard] GPG signature of ISO verified successfully.
+[timestamp] [Worker 1] [Alpine Standard] Verifying checksum...
+[timestamp] [Worker 1] [Alpine Standard] Checksum verified successfully.
+[timestamp] [Worker 1] [Alpine Standard] Successfully verified.
+[timestamp] [Worker 2] [Debian Netinstall] Progress: 69% (539.19 MB / 784.00 MB) @ 71.96 MB/s, ETA: 0m3s
+[timestamp] [Worker 2] [Debian Netinstall] Download complete.
+[timestamp] [Worker 2] [Debian Netinstall] Starting verification.
+[timestamp] [Worker 2] [Debian Netinstall] Verifying GPG signature of checksum file...
+[timestamp] [Worker 2] [Debian Netinstall] GPG signature of checksum file verified successfully.
+[timestamp] [Worker 2] [Debian Netinstall] Verifying ISO checksum...
+[timestamp] [Worker 2] [Debian Netinstall] Checksum verified successfully.
+[timestamp] [Worker 2] [Debian Netinstall] Successfully verified.
+[timestamp] All tasks completed.
     ```
 
 ### Docker

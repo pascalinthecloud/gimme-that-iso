@@ -13,6 +13,13 @@
       "signature_url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso.asc",
       "checksum_file_url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso.sha256",
       "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x293ACD0907D9495A"
+    },
+    {
+      "name": "Proxmox VE 9.1-1",
+      "url": "https://enterprise.proxmox.com/iso/proxmox-ve_9.1-1.iso",
+      "signature_url": "https://enterprise.proxmox.com/iso/SHA256SUMS.asc",
+      "checksum_file_url": "https://enterprise.proxmox.com/iso/SHA256SUMS",
+      "gpg_key_url": "https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg"
     }
   ]
 }

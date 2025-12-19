@@ -18,9 +18,6 @@
 go.work
 go.work.sum
 
-# Local binary
-gimme-that-iso
-
 # Downloaded isos
 *.iso
 downloads

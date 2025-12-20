@@ -6,11 +6,12 @@ import (
 )
 
 type ISO struct {
-	Name            string `json:"name"`
-	URL             string `json:"url"`
-	SignatureURL    string `json:"signature_url"`
-	ChecksumFileURL string `json:"checksum_file_url"`
-	GPGKeyURL       string `json:"gpg_key_url"`
+	Name             string `json:"name"`
+	URL              string `json:"url"`
+	SignatureURL     string `json:"signature_url"`
+	ChecksumFileURL  string `json:"checksum_file_url"`
+	GPGKeyURL        string `json:"gpg_key_url"`
+	VerificationType string `json:"verification_type"`
 }
 
 type Config struct {

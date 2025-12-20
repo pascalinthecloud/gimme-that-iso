@@ -5,21 +5,36 @@
       "url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso",
       "signature_url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS.sign",
       "checksum_file_url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS",
-      "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xDA87E80D6294BE9B"
+      "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xDA87E80D6294BE9B",
+      "verification_type": "checksum_signed"
     },
     {
       "name": "Alpine Standard",
       "url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso",
       "signature_url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso.asc",
       "checksum_file_url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso.sha256",
-      "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x293ACD0907D9495A"
+      "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x293ACD0907D9495A",
+      "verification_type": "iso_signed"
     },
     {
       "name": "Proxmox VE 9.1-1",
       "url": "https://enterprise.proxmox.com/iso/proxmox-ve_9.1-1.iso",
       "signature_url": "https://enterprise.proxmox.com/iso/SHA256SUMS.asc",
       "checksum_file_url": "https://enterprise.proxmox.com/iso/SHA256SUMS",
-      "gpg_key_url": "https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg"
+      "gpg_key_url": "https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg",
+      "verification_type": "checksum_signed"
+    },
+    {
+      "name": "Fedora 43 Workstation",
+      "url": "https://ftp.uni-stuttgart.de/fedora/releases/43/Workstation/x86_64/iso/Fedora-Workstation-Live-43-1.6.x86_64.iso",
+      "signature_url": "https://ftp.uni-stuttgart.de/fedora/releases/43/Workstation/x86_64/iso/Fedora-Workstation-43-1.6-x86_64-CHECKSUM",
+      "checksum_file_url": "https://ftp.uni-stuttgart.de/fedora/releases/43/Workstation/x86_64/iso/Fedora-Workstation-43-1.6-x86_64-CHECKSUM",
+      "gpg_key_url": "https://fedoraproject.org/fedora.gpg",
+      "verification_type": "checksum_embedded"
+    },
+    {
+      "name": "Ubuntu 24.04.3 LTS",
+      "url": "https://releases.ubuntu.com/24.04.3/ubuntu-24.04.3-desktop-amd64.iso"
     }
   ]
 }

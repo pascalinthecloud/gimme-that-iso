@@ -1,6 +1,7 @@
 package downloader
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"log"
@@ -13,15 +14,37 @@ import (
 	"github.com/schollz/progressbar/v3"
 )
 
+const (
+	// ConnectTimeout is the maximum time to establish a connection
+	ConnectTimeout = 30 * time.Second
+	// MaxDownloadTime is the maximum allowed time for a complete download
+	// (prevents hung downloads that never finish)
+	MaxDownloadTime = 2 * time.Hour
+	// IdleTimeout is how long to wait without progress before timing out
+	IdleTimeout = 5 * time.Minute
+)
+
 // DownloadFile handles the download of a single file. If showProgress is true,
 // it prints periodic, detailed log lines to standard output.
 func DownloadFile(workerID int, isoName string, url string, destPath string, showProgress bool) error {
-	req, err := http.NewRequest("GET", url, nil)
+	// Create a context with a maximum download timeout
+	ctx, cancel := context.WithTimeout(context.Background(), MaxDownloadTime)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return fmt.Errorf("could not create request: %w", err)
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	// Create a custom HTTP client with connection timeout
+	client := &http.Client{
+		Timeout: ConnectTimeout + MaxDownloadTime,
+		Transport: &http.Transport{
+			IdleConnTimeout: IdleTimeout,
+		},
+	}
+
+	resp, err := client.Do(req)
 	if err != nil {
 		return fmt.Errorf("could not download file: %w", err)
 	}
@@ -48,8 +71,8 @@ func DownloadFile(workerID int, isoName string, url string, destPath string, sho
 	// --- Detailed Logging Implementation ---
 	bar := progressbar.NewOptions64(
 		resp.ContentLength,
-		progressbar.OptionSetWriter(io.Discard),      // Don't render the bar
-		progressbar.OptionThrottle(2*time.Second),    // Throttle state updates
+		progressbar.OptionSetWriter(io.Discard),                   // Don't render the bar
+		progressbar.OptionThrottle(2*time.Second),                 // Throttle state updates
 		progressbar.OptionSetDescription(filepath.Base(destPath)), // Use filename as description
 		progressbar.OptionSetPredictTime(true),
 		progressbar.OptionShowBytes(true),
@@ -62,9 +85,9 @@ func DownloadFile(workerID int, isoName string, url string, destPath string, sho
 		for !bar.IsFinished() {
 			time.Sleep(2 * time.Second)
 			state := bar.State()
-			
+
 			speedMBs := state.KBsPerSecond / 1024.0 // Convert KB/s to MB/s
-			
+
 			var eta time.Duration
 			// Use the library's built-in SecondsLeft for a more stable ETA
 			eta = time.Duration(state.SecondsLeft) * time.Second
@@ -88,9 +111,9 @@ func DownloadFile(workerID int, isoName string, url string, destPath string, sho
 		// Can't return error here easily without more channels,
 		// but the outer function will catch the io.Copy error.
 	}
-	
+
 	// Wait for the logging goroutine to print its last update
-	wg.Wait() 
+	wg.Wait()
 	log.Printf("[Worker %d] [%s] Download complete.", workerID, isoName)
 
 	return err // Return the error from io.Copy

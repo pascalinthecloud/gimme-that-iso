@@ -7,6 +7,10 @@
 - **Declarative Downloads**: Configure all your ISO downloads in a single `isos.json` file.
 - **Concurrent Downloads**: Downloads multiple ISOs at the same time for improved performance.
 - **Secure**: Verifies downloads using both GPG signatures and checksums (SHA512/SHA256).
+- **Flexible Verification**: Supports multiple verification schemes:
+    - **Signed Checksums**: Standard flow (Debian, Ubuntu) where the checksum file is signed.
+    - **Signed ISOs**: Direct ISO signature verification (Alpine).
+    - **Embedded Signatures**: Parsing cleartext-signed checksum files (Fedora).
 - **Memory Efficient**: Downloads files by streaming them to disk, not loading them into memory.
 - **Pipeline-Friendly Logging**: Provides clean, timestamped, and tagged log output for every step (progress, verification), making it ideal for automation and easy to parse.
 - **Container Ready**: Includes a multi-stage `Dockerfile` for building a minimal, secure image.
@@ -15,6 +19,16 @@
 ## Configuration
 
 The application is configured using an `isos.json` file. You can add multiple files to be downloaded concurrently.
+
+### Verification Types
+
+The `verification_type` field tells the downloader how to verify the file. If omitted, the tool attempts to guess based on the URL extensions.
+
+| Type | Description | Example Distros |
+| :--- | :--- | :--- |
+| `checksum_signed` | **Default**. The checksum file is signed by a detached signature. | Debian, Ubuntu, Proxmox |
+| `iso_signed` | The ISO file itself has a detached signature. | Alpine Linux |
+| `checksum_embedded`| The checksum file is a cleartext-signed message containing the checksums. | Fedora |
 
 **`isos.json` example:**
 ```json
@@ -25,14 +39,23 @@ The application is configured using an `isos.json` file. You can add multiple fi
       "url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/debian-13.2.0-amd64-netinst.iso",
       "signature_url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS.sign",
       "checksum_file_url": "https://cdimage.debian.org/cdimage/release/current/amd64/iso-cd/SHA512SUMS",
-      "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xDA87E80D6294BE9B"
+      "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xDA87E80D6294BE9B",
+      "verification_type": "checksum_signed"
     },
     {
       "name": "Alpine Standard",
       "url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso",
       "signature_url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso.asc",
       "checksum_file_url": "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-standard-3.20.0-x86_64.iso.sha256",
-      "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x293ACD0907D9495A"
+      "gpg_key_url": "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x293ACD0907D9495A",
+      "verification_type": "iso_signed"
+    },
+    {
+      "name": "Fedora Workstation",
+      "url": "https://ftp.uni-stuttgart.de/fedora/releases/43/Workstation/x86_64/iso/Fedora-Workstation-Live-43-1.6.x86_64.iso",
+      "checksum_file_url": "https://ftp.uni-stuttgart.de/fedora/releases/43/Workstation/x86_64/iso/Fedora-Workstation-43-1.6-x86_64-CHECKSUM",
+      "gpg_key_url": "https://fedoraproject.org/fedora.gpg",
+      "verification_type": "checksum_embedded"
     }
   ]
 }

@@ -14,7 +14,10 @@ All requested features have been implemented, tested, and are working correctly.
 
 *   **Concurrent Downloads**: The application uses a worker pool of goroutines to download multiple files simultaneously for high performance.
 *   **Secure Verification**:
-    *   **GPG Signatures**: Automatically verifies the integrity of downloaded files using GPG signatures. It is smart enough to handle two different verification flows: signatures that cover a checksum file (like Debian) and signatures that cover the ISO file directly (like Alpine).
+    *   **GPG Signatures**: Automatically verifies the integrity of downloaded files using GPG signatures. It supports three verification flows:
+        *   **Signed Checksums**: Signatures that cover a checksum file (like Debian/Ubuntu).
+        *   **Signed ISOs**: Signatures that cover the ISO file directly (like Alpine).
+        *   **Embedded Signatures**: Parsing cleartext-signed checksum files (like Fedora).
     *   **Checksum Validation**: Verifies SHA512 or SHA256 checksums after GPG verification passes.
 *   **Pipeline-Friendly Logging**: All output is designed for clarity in automated environments.
     *   Every log line is prefixed with a standard timestamp (e.g., `2025/12/14 00:08:05`).
